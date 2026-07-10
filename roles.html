@@ -225,107 +225,82 @@
     <h2>Member Journey</h2>
     <div class="journey-steps">
       <div class="journey-step">
-        <span class="step-role">applicant</span>
-        <span class="step-desc">Submitted interest, under board review. Can read bylaws and membership agreement.</span>
+        <span class="step-role">Guest</span>
+        <span class="step-desc">Public materials only. Reads bylaws and benefit report.</span>
       </div>
       <div class="journey-step">
-        <span class="step-role">member</span>
-        <span class="step-desc">Class One admission. $100 share. Can read member directory and all agreements.</span>
+        <span class="step-role">Applicant</span>
+        <span class="step-desc">Under board review. Reads bylaws and membership agreement. No member records.</span>
       </div>
       <div class="journey-step">
-        <span class="step-role">patron_member</span>
-        <span class="step-desc">Active contributor with logged patronage. Can see resource table. K-1 eligible.</span>
+        <span class="step-role">Patron Member</span>
+        <span class="step-desc">Admitted. $100 share. One vote. Member directory, all agreements, own capital account.</span>
       </div>
       <div class="journey-step">
-        <span class="step-role">director</span>
-        <span class="step-desc">Board elected. Full write access. Governs role grants and agreement creation.</span>
+        <span class="step-role">Director</span>
+        <span class="step-desc">Board elected. Full read/write. Governs role grants and agreement creation.</span>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Cooperative Core Roles</h2>
+    <h2>Cooperative Roles</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Roles are derived from the bylaws. Access is not a separate permissions layer — rights and obligations are defined in the bylaws and enforced at the data layer.</p>
     <div class="role-grid">
       <div class="role-card">
-        <div class="role-name">admin</div>
-        <div class="role-plain">System administrator. Full database access. Typically an AI agent or technical steward. Not a governance role — does not vote.</div>
-        <span class="role-cite">System role — not in Bylaws</span>
+        <div class="role-name">Guest</div>
+        <div class="role-plain">Public-facing materials only: benefit report, principles, aggregate figures. Bylaws are readable without authentication.</div>
+        <span class="role-cite">bylaws:v2:art-15 — §XV</span>
       </div>
       <div class="role-card">
-        <div class="role-name">director</div>
-        <div class="role-plain">Board member. Reads and writes all CIS data, creates agreements, grants roles. Elected by Class One members at annual meeting.</div>
-        <span class="role-cite">bylaws:v2:art-3 — Directors</span>
+        <div class="role-name">Applicant</div>
+        <div class="role-plain">Own application and signed agreements. No access to member records. Can read bylaws and membership agreement before signing.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-4 — §1.4</span>
       </div>
       <div class="role-card">
-        <div class="role-name">officer</div>
-        <div class="role-plain">President, Vice President, Treasurer, or Secretary. Elevated write access for their functional area. Appointed by the board.</div>
-        <span class="role-cite">bylaws:v2:art-4 — Officers</span>
+        <div class="role-name">Patron Member</div>
+        <div class="role-plain">Own records always. Aggregate figures and membership list on request. Meeting materials for meetings they attend. Eligible for patronage allocation. One vote. $100 share.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-2, §1.7, §2.9, §18.1</span>
       </div>
       <div class="role-card">
-        <div class="role-name">patron_member</div>
-        <div class="role-plain">Active member with logged contributions. Eligible for patronage allocation at year-end. Reads the full resource table.</div>
-        <span class="role-cite">bylaws:v2:art-5.sec-1 — Patronage</span>
+        <div class="role-name">Investor Member</div>
+        <div class="role-plain">Own records always. Class-specific voting where required. No patronage allocation. No workspace access. Terms pending Pote Law Firm (Class Four).</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-3, §2.6.2</span>
       </div>
       <div class="role-card">
-        <div class="role-name">member</div>
-        <div class="role-plain">Class One member in good standing. Reads member directory and agreements. One vote. $100 share.</div>
-        <span class="role-cite">bylaws:v2:art-1.sec-1 — Membership classes</span>
+        <div class="role-name">Suspended Member</div>
+        <div class="role-plain">Read own records only. No voting, no participation in management. Status reviewed at next board meeting.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-10 — §1.10.1</span>
       </div>
       <div class="role-card">
-        <div class="role-name">applicant</div>
-        <div class="role-plain">Prospective member under board review. Reads bylaws and membership agreement only. No other access.</div>
-        <span class="role-cite">bylaws:v2:art-1.sec-2 — Admission</span>
+        <div class="role-name">Former Member</div>
+        <div class="role-plain">Historical access to own records, including in-progress redemption schedule. Capital account paid out on board schedule (up to 5 years).</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-11</span>
       </div>
       <div class="role-card">
-        <div class="role-name">suspended_member</div>
-        <div class="role-plain">Member under suspension by board action. Read access reduced to bylaws only. Status reviewed at next board meeting.</div>
-        <span class="role-cite">bylaws:v2:art-1.sec-10 — Suspension</span>
+        <div class="role-name">Director</div>
+        <div class="role-plain">Member access plus board materials, board minutes, committee reports. Full write access. Governs role grants and agreement creation. Elected by Patron Members.</div>
+        <span class="role-cite">bylaws:v2:art-3 — §III</span>
       </div>
       <div class="role-card">
-        <div class="role-name">former_member</div>
-        <div class="role-plain">Withdrew or was terminated. Capital account on board-determined payout schedule (up to 5 years). Bylaws read access retained.</div>
-        <span class="role-cite">bylaws:v2:art-1.sec-11 — Termination</span>
+        <div class="role-name">Officer</div>
+        <div class="role-plain">Role-specific authority: Treasurer over financial records, Secretary over minutes and registers, President over contracts. Appointed by the board.</div>
+        <span class="role-cite">bylaws:v2:art-4 — §IV</span>
       </div>
       <div class="role-card">
-        <div class="role-name">investor_member</div>
-        <div class="role-plain">Class Four investor. No voting unless co-held with Class One. No patronage. No workspace access. Terms pending Pote Law Firm.</div>
-        <span class="role-cite">bylaws:v2 — Class Four (pending)</span>
+        <div class="role-name">Committee Member</div>
+        <div class="role-plain">Director access plus full committee working materials. Appointed by the board to serve on standing or special committees.</div>
+        <span class="role-cite">bylaws:v2:art-3.sec-18 — §3.18</span>
       </div>
       <div class="role-card">
-        <div class="role-name">community_supporter</div>
-        <div class="role-plain">Capital contribution without equity or membership rights. Governed by ULCAA § 7-58-104. No votes, no patronage.</div>
-        <span class="role-cite">ULCAA § 7-58-104</span>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Hub Operations Roles</h2>
-    <div class="role-grid">
-      <div class="role-card">
-        <div class="role-name">hub_member</div>
-        <div class="role-plain">Class Two co-working member. $250/mo hot desk or $500+/mo dedicated. No voting. Hub MA drafting deferred.</div>
-        <span class="role-cite">bylaws:v2 — Class Two</span>
+        <div class="role-name">Administrator</div>
+        <div class="role-plain">Operational access for onboarding, support, and data stewardship. Does not create substantive decisions. Full database access. Typically a technical steward or AI agent.</div>
+        <span class="role-cite">Policy role — not a membership class</span>
       </div>
       <div class="role-card">
-        <div class="role-name">community_participant</div>
-        <div class="role-plain">Class Three participant. $25–$100/mo tiered (Threshold · Footing · Standing). No voting. Hub MA drafting deferred.</div>
-        <span class="role-cite">bylaws:v2 — Class Three</span>
-      </div>
-      <div class="role-card">
-        <div class="role-name">hub_staff</div>
-        <div class="role-plain">Staff managing the 1515 Walnut space. Operational write access to hub bookings and space tables (W3+).</div>
-        <span class="role-cite">Operational role — not a membership class</span>
-      </div>
-      <div class="role-card">
-        <div class="role-name">agent_ai</div>
-        <div class="role-plain">AI agent operating within the cooperative. Currently: Nou (collective intelligence) and Dianoia (execution intelligence). Scoped access per individual grants.</div>
-        <span class="role-cite">System role — CIS bootstrap</span>
-      </div>
-      <div class="role-card">
-        <div class="role-name">auditor</div>
-        <div class="role-plain">Read-only access to all audit.events and financial records. For external review or cooperative transparency audits. No write access.</div>
-        <span class="role-cite">bylaws:v2:art-15 — Annual Benefit Report</span>
+        <div class="role-name">Agent (Nou)</div>
+        <div class="role-plain">Scoped impersonation: inherits permissions of the invoking user, never more. All actions logged. Nou is the collective intelligence agent; Dianoia is execution intelligence.</div>
+        <span class="role-cite">CIS Principle 01 — Augmentation, not automation</span>
       </div>
     </div>
   </section>

@@ -258,12 +258,12 @@
   <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
   <div class="wave-bar">
     <span class="wave active">W0 · SUBSTRATE</span>
-    <span class="wave planned">W1 · AUTH</span>
-    <span class="wave planned">W2 · PATRONAGE</span>
-    <span class="wave planned">W3 · TREASURY</span>
-    <span class="wave planned">W4 · PEOPLE</span>
-    <span class="wave planned">W5 · AGREEMENTS</span>
-    <span class="wave planned">W6 · COORDINATION</span>
+    <span class="wave planned">Ph1 · AGENT &amp; AGREEMENT</span>
+    <span class="wave planned">Ph2 · CAPITAL ACCOUNT</span>
+    <span class="wave planned">Ph3 · GOVERNANCE</span>
+    <span class="wave planned">Ph4 · LIFECYCLE</span>
+    <span class="wave planned">Ph5 · FULL INTERFACE</span>
+    <span class="wave planned">Ph6 · PRACTICE</span>
   </div>
   <h1>CIS Reference</h1>
   <div class="subtitle">Cooperative Information System · RegenHub, LCA · construction zone</div>
@@ -283,7 +283,7 @@
     <strong>Digital construction zone.</strong> This reference documents what is live in the CIS database — not what is planned or hoped for. Planned sections are marked with dashed borders and a <span class="badge planned">PLANNED</span> badge. Live sections are marked <span class="badge live">LIVE</span>.
   </div>
 
-  <p class="lede">The Cooperative Information System is the state machine of RegenHub, LCA. It holds the legal structure of the cooperative — the agents who compose it, the agreements that govern it, the resources it holds, and the events it records. This reference makes that structure legible to members and builders alike.</p>
+  <p class="lede">The Cooperative Information System is the state machine of RegenHub, LCA. It holds the legal structure of the cooperative — the agents who compose it, the agreements that govern it, the resources it holds, and the events it records. This reference makes that structure legible to members and builders alike. The PRD that specifies it lives at <a href="https://techne.institute/cis" style="color:var(--gold)">techne.institute/cis</a>.</p>
 
   <section>
     <h2>Live State</h2>
@@ -319,16 +319,17 @@
     <h2>Architecture</h2>
     <p>The CIS is organized in layers. L1 holds the REA primitives — the economic ontology that makes cooperative accounting possible. L2 holds the audit trail. Planned waves will add patronage, treasury, coordination, and membership tooling on top of this substrate.</p>
     <div class="arch-diagram">
-      <div><span class="layer-label">L1 · Primitives</span>  ·  agents · agreements · agreement_sections · resources · role_assignments <span class="badge live">LIVE</span></div>
+      <div><span class="layer-label">W0 · Substrate</span>   ·  agents · agreements · agreement_sections · resources · role_assignments · audit.events <span class="badge live">LIVE</span></div>
       <div><span class="arrow">↓</span></div>
-      <div><span class="layer-label">L2 · Audit</span>      ·  audit.events (unified append-only event stream) <span class="badge live">LIVE</span></div>
+      <div><span class="layer-label">Ph1 · Agents</span>     ·  Supabase Auth · memberships · stock_ledger · signatures · onboarding flow <span class="badge planned">PLANNED</span></div>
       <div><span class="arrow">↓</span></div>
-      <div><span class="layer-label">W1 · Auth</span>        ·  Supabase Auth · member login · role provisioning <span class="badge planned">PLANNED</span></div>
+      <div><span class="layer-label">Ph2 · Capital</span>    ·  capital_accounts · capital_events · tax_records · multi-sig treasury <span class="badge planned">PLANNED</span></div>
       <div><span class="arrow">↓</span></div>
-      <div><span class="layer-label">W2 · Patronage</span>   ·  contribution primitives · capital accounts · K-1 allocation <span class="badge planned">PLANNED</span></div>
+      <div><span class="layer-label">Ph3 · Governance</span> ·  meetings · motions · votes · minutes · notices · on-chain attestation <span class="badge planned">PLANNED</span></div>
       <div><span class="arrow">↓</span></div>
-      <div><span class="layer-label">W3+ · Modules</span>    ·  treasury · people · hub operations · coordination games <span class="badge planned">PLANNED</span></div>
+      <div><span class="layer-label">Ph4–6 · Lifecycle → Full Interface → Practice</span> <span class="badge planned">PLANNED</span></div>
     </div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:1rem;">Design discipline: <strong style="color:var(--gold)">CROPS</strong> — Censorship Resistance · Open Source · Privacy · Security. Each property advances through four stages (filter → operating assumption → system pattern → embodied practice) across the six delivery phases. See <a href="https://techne.institute/cis" style="color:var(--gold)">techne.institute/cis §03</a>.</p>
   </section>
 
   <section>
@@ -363,8 +364,8 @@
         <div class="card-desc">Capital accounts, contribution primitives, and year-end allocation logic. W2. Validated engine exists (184 tests); needs schema migration.</div>
       </div>
       <div class="status-card planned">
-        <div class="card-title">Hub Operations <span class="badge planned">PLANNED</span></div>
-        <div class="card-desc">Workspace bookings, co-working membership, space revenue tracking. W3+. Intranet rebuild will surface this data.</div>
+        <div class="card-title">Governance Engine <span class="badge planned">Ph3</span></div>
+        <div class="card-desc">Meetings, motions, votes, minutes, notices. Quorum calculation, vote threshold enforcement, consent workflows. On-chain attestation for selected events.</div>
       </div>
     </div>
   </section>
@@ -372,7 +373,7 @@
   <section>
     <h2>What the CIS is not</h2>
     <p>The CIS is not a workflow tool, a chat surface, or a task manager. It holds the economic facts of the cooperative — what exists, what was agreed, what happened. Applications are built on top of it, but the CIS itself is the ground truth.</p>
-    <p>The Workshop coordination system (co-op.us) will be retired. The intranet will be rebuilt directly from this CIS project rather than migrated from the legacy system.</p>
+    <p>The co-op.us Workshop will be retired without migration. The intranet is being rebuilt directly from this CIS project. The Ethereum Community Hub program has ended; Hub Operations modules are not part of the CIS scope.</p>
   </section>
 
   <section>
@@ -384,7 +385,7 @@
 
 <footer>
   <span>CIS Reference · RegenHub, LCA · <span id="footer-date"></span></span>
-  <span class="mono">W0 · SUBSTRATE · construction zone</span>
+  <span class="mono">W0 complete · Ph1–Ph6 planned · PRD: techne.institute/cis</span>
 </footer>
 
 <script>

@@ -288,57 +288,57 @@
     <div class="timeline">
 
       <div class="timeline-item planned">
-        <div class="migration-title">W1 — Authentication <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">Supabase Auth provisioned on the CIS project. Map auth.uid() to agents.id via the agent_id() helper. Enable member login. Provision role_assignments for real members. RLS policies begin enforcing against live sessions.</div>
+        <div class="migration-title">Phase 1 — Agent &amp; Agreement <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Supabase Auth provisioned on this project. Member onboarding flow, directory, and profile. Stock ledger and signature tracking. Nou gains read-only directory and agreement lookup. CROPS targets: C·01 O·02 P·01 S·01.</div>
         <div class="migration-what">
-          <span class="key">Unlocks:</span> Members can see their own directory entry, agreements, and audit trail<br>
-          <span class="key">Requires:</span> Auth provider config · member email list · invitation flow
+          <span class="key">New tables:</span> memberships · stock_ledger · signatures<br>
+          <span class="key">Auth:</span> auth.uid() → agents.id via agent_id() helper<br>
+          <span class="key">Bylaw basis:</span> §1.1–1.4 · §1.13 · §1.7
         </div>
       </div>
 
       <div class="timeline-item planned">
-        <div class="migration-title">W2 — Patronage Engine <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">Capital accounts, contribution primitives (HOURS · REVENUE · CASH · OUTPUT · PRESENCE · PROPERTY), and year-end allocation. The patronage formula maps to K-1 distributions. A validated engine with 184 tests exists; needs migration to this schema.</div>
+        <div class="migration-title">Phase 2 — Capital Account <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Per-member capital account balance with full event history. Tax records for K-1 preparation. Multi-sig treasury structure. Nou gains balance queries and history summarization. CROPS targets: C·02 O·03 P·02 S·02.</div>
         <div class="migration-what">
-          <span class="key">New tables:</span> contributions · capital_accounts · allocations<br>
-          <span class="key">Six primitives:</span> closed at Bylaws level (art-5)<br>
-          <span class="key">Formula:</span> 40% labor · 30% revenue · 20% cash · 10% community
+          <span class="key">New tables:</span> capital_accounts · capital_events · tax_records<br>
+          <span class="key">Patronage formula (proposed):</span> 40% labor · 30% revenue · 20% cash · 10% community<br>
+          <span class="key">Bylaw basis:</span> §V · §VI · Subchapter K / IRC 704(b)
         </div>
       </div>
 
       <div class="timeline-item planned">
-        <div class="migration-title">W3 — Treasury <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">Financial statement integration. Mercury bank account, Stripe payouts, and Xero entries linked to CIS resources. Monthly statement generation. The June 2026 statement currently exists as a standalone HTML file; W3 bakes this into the CIS.</div>
+        <div class="migration-title">Phase 3 — Governance <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Meetings, motions, votes, minutes, and notices. Quorum calculation, vote threshold enforcement, consent workflows. On-chain attestation extended for selected events. Nou gains meeting context and motion drafting. CROPS targets: C·02 O·03 P·03 S·03.</div>
         <div class="migration-what">
-          <span class="key">Integrations:</span> Mercury API · Stripe API · Xero OAuth<br>
-          <span class="key">New tables:</span> ledger_entries · bank_accounts · statement_periods
+          <span class="key">New tables:</span> meetings · attendance · proxies · motions · votes · consents · minutes · notices · committees<br>
+          <span class="key">Bylaw basis:</span> §II · §III · §X · §XII
         </div>
       </div>
 
       <div class="timeline-item planned">
-        <div class="migration-title">W4 — People <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">Full member onboarding flow. Invitation, application, board review, admission, share purchase — all tracked in the CIS. Membership Agreement v2.3 loaded as an agreement record. Class One admission tied to role_assignments.</div>
+        <div class="migration-title">Phase 4 — Lifecycle <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">State transitions, redemption schedules, termination processes. Guided withdrawal, suspension tracking, admission flow refined. Nou gains lifecycle guidance and clock monitoring. CROPS targets: C·03 O·03 P·03 S·03.</div>
         <div class="migration-what">
-          <span class="key">New tables:</span> applications · invitations · share_purchases<br>
-          <span class="key">Requires:</span> W1 (auth) complete
+          <span class="key">Workflows:</span> member admission · withdrawal · suspension · termination · redemption (up to 5 years)<br>
+          <span class="key">Bylaw basis:</span> §1.4 · §1.9 · §1.10 · §1.11
         </div>
       </div>
 
       <div class="timeline-item planned">
-        <div class="migration-title">W5 — Hub Operations <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">1515 Walnut co-working space management. Desk assignments, office leases, Class Two/Three membership billing, booking calendar. Revenue tracked into W3 treasury layer.</div>
+        <div class="migration-title">Phase 5 — Full Interface <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Derived views, analytics, benefit report generation. Complete member portal and public surface. Walkaway test runnable — cooperative can reconstruct all state from exported records. Nou full augmentation surface and audit support. CROPS targets: C·03 O·04 P·03 S·04.</div>
         <div class="migration-what">
-          <span class="key">New tables:</span> spaces · bookings · hub_memberships · space_revenue<br>
-          <span class="key">Target MRR:</span> $10-11K/mo by June 2027
+          <span class="key">New tables:</span> benefit_reports · policies · conflict_disclosures<br>
+          <span class="key">Walkaway test:</span> all tables have documented export path; export schema in place from W0
         </div>
       </div>
 
       <div class="timeline-item planned">
-        <div class="migration-title">W6 — Coordination <span class="badge planned">PLANNED</span></div>
-        <div class="migration-desc">Decision threads, deliberation notes, and the cooperative's governance coordination surface. Replaces the co-op.us Workshop system. The intranet rebuild will surface this as the member-facing coordination layer.</div>
+        <div class="migration-title">Phase 6 — Practice <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">No new schema migrations. Cultural and operational work to migrate CROPS properties from architecture into membership practice. Security hygiene becomes habitual. Openness becomes care for commons. Privacy understood as care for members. CROPS targets: C·04 O·04 P·04 S·04.</div>
         <div class="migration-what">
-          <span class="key">New tables:</span> decision_threads · deliberation_notes · agenda_items<br>
-          <span class="key">Replaces:</span> hvbdpgkdcdskhpbdeeim (co-op.us Workshop — being retired)
+          <span class="key">This phase lives in membership culture, not the database</span>
         </div>
       </div>
 
@@ -354,7 +354,7 @@
 
 <footer>
   <span>CIS Reference · Migrations</span>
-  <span class="mono">3 applied · W0 complete · 2026-07-08</span>
+  <span class="mono">W0 complete · Ph1–Ph6 planned · PRD: techne.institute/cis</span>
 </footer>
 
 <script>

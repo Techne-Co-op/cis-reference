@@ -407,38 +407,121 @@
     </div>
   </div>
 
-  <div class="section-header">Planned — Wave 2+</div>
+  <div class="section-header">Planned — Phase 1 · Agents &amp; Agreements</div>
 
   <div class="table-card planned">
     <div class="table-header">
-      <span class="table-name">contributions</span>
-      <span class="badge planned">W2</span>
-      <span class="table-rea">REA · Economic Event</span>
+      <span class="table-name">memberships</span>
+      <span class="badge planned">Ph1</span>
+      <span class="table-rea">REA · Agent / Agreement</span>
     </div>
     <div class="table-plain view-plain">
-      The patronage engine — HOURS, REVENUE, CASH, OUTPUT, PRESENCE, PROPERTY primitives credited to member capital accounts. Six primitives, closed at the Bylaws level; adding a seventh requires amendment.
+      Per-member record linking agent to class (Patron, Investor), good standing status, admission date, and share count. Canonical source for member directory queries. Bylaw basis: §1.1–1.4.
     </div>
   </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">stock_ledger</span>
+      <span class="badge planned">Ph1</span>
+      <span class="table-rea">REA · Resource</span>
+    </div>
+    <div class="table-plain view-plain">
+      Patron Stock and Preferred Stock issuance, transfers, and redemptions. Enforces the one-per-member rule and transfer restrictions. Bylaw basis: §1.13, §4.5.
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">signatures</span>
+      <span class="badge planned">Ph1</span>
+      <span class="table-rea">REA · Event</span>
+    </div>
+    <div class="table-plain view-plain">
+      Records of agreement execution — who signed what, when. Links agents to agreements. Bylaw basis: §1.4.
+    </div>
+  </div>
+
+  <div class="section-header">Planned — Phase 2 · Capital Account</div>
 
   <div class="table-card planned">
     <div class="table-header">
       <span class="table-name">capital_accounts</span>
-      <span class="badge planned">W2</span>
-      <span class="table-rea">REA · Economic Resource</span>
+      <span class="badge planned">Ph2</span>
+      <span class="table-rea">REA · Resource</span>
     </div>
     <div class="table-plain view-plain">
-      Per-member capital balances, tracking allocated patronage, tax distributions, and redemption schedule. Governed by Subchapter K / IRC 704(b).
+      Per-member capital account balance with full event history. Tracks book versus tax distinction. Governed by Subchapter K / IRC 704(b). Bylaw basis: §5.1.
     </div>
   </div>
 
   <div class="table-card planned">
     <div class="table-header">
-      <span class="table-name">hub_bookings · spaces · memberships</span>
-      <span class="badge planned">W3</span>
-      <span class="table-rea">Hub Operations</span>
+      <span class="table-name">capital_events</span>
+      <span class="badge planned">Ph2</span>
+      <span class="table-rea">REA · Event</span>
     </div>
     <div class="table-plain view-plain">
-      Co-working space management for 1515 Walnut — desk assignments, office leases, booking calendar, and Class Two/Three membership tracking.
+      Individual entries to capital accounts: contributions, allocations, distributions, adjustments, tax withholding. Every balance change is an immutable event row. Bylaw basis: §5.1, §5.3, §5.4.
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">tax_records</span>
+      <span class="badge planned">Ph2</span>
+      <span class="table-rea">REA · Agreement / Event</span>
+    </div>
+    <div class="table-plain view-plain">
+      K-1 preparation data, fiscal year reporting, and tax election tracking. Outputs feed the accountant. Bylaw basis: §VI.
+    </div>
+  </div>
+
+  <div class="section-header">Planned — Phase 3 · Governance</div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">meetings · attendance · proxies</span>
+      <span class="badge planned">Ph3</span>
+      <span class="table-rea">REA · Event / Agreement</span>
+    </div>
+    <div class="table-plain view-plain">
+      Meeting scheduling, notice delivery, RSVP and proxy capture, real-time quorum calculation, and attendance records. Bylaw basis: §II, §III.
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">motions · votes · consents</span>
+      <span class="badge planned">Ph3</span>
+      <span class="table-rea">REA · Event / Resource</span>
+    </div>
+    <div class="table-plain view-plain">
+      Motion capture, vote collection, threshold enforcement, outcome determination, and consent workflows. Votes are immutable once cast. Bylaw basis: §2.6, §2.8, §3.13–3.15.
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">minutes · notices · committees</span>
+      <span class="badge planned">Ph3</span>
+      <span class="table-rea">REA · Agreement / Event / Agent</span>
+    </div>
+    <div class="table-plain view-plain">
+      Meeting minutes (drafted and ratified), notices with delivery tracking and legally-required timing windows, and committee agent records. Bylaw basis: §4.5, §X, §3.18.
+    </div>
+  </div>
+
+  <div class="section-header">Planned — Phase 4–5</div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">benefit_reports · policies · conflict_disclosures</span>
+      <span class="badge planned">Ph4-5</span>
+      <span class="table-rea">REA · Agreement</span>
+    </div>
+    <div class="table-plain view-plain">
+      Annual public benefit report (§XV), board-adopted policies, and director conflict disclosures with recusal tracking (§XI, §XVII). Phase 5 completes the full cooperative governance surface and enables the walkaway test.
     </div>
   </div>
 
