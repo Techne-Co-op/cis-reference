@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bylaws — CIS Reference</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  .mode-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+  .agreement-meta {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .meta-item { color: var(--muted); }
+  .meta-item strong { color: var(--gold); display: block; font-size: 0.65rem; letter-spacing: 0.06em; font-weight: 400; margin-bottom: 0.15rem; }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    letter-spacing: 0.06em;
+    display: inline-block;
+  }
+  .badge.draft { background: transparent; color: var(--muted); border: 1px solid var(--muted); }
+  .article-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+  .art-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .art-btn:hover, .art-btn.active {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  #bylaws-content { min-height: 200px; }
+  .article-block { margin-bottom: 1rem; }
+  .article-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--gold);
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--gold-dim);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .article-heading .toggle-icon {
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+  .section-row {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .section-row:last-child { border-bottom: none; }
+  .section-address {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: #7ab;
+    margin-bottom: 0.2rem;
+  }
+  .section-heading {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .section-body {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-family: Georgia, serif;
+  }
+  .section-body.collapsed {
+    max-height: 4.5em;
+    overflow: hidden;
+    position: relative;
+  }
+  .section-body.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2em;
+    background: linear-gradient(transparent, var(--paper));
+  }
+  .expand-btn {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    cursor: pointer;
+    padding: 0.2rem 0;
+    letter-spacing: 0.04em;
+  }
+  .loading-msg {
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    padding: 2rem 0;
+  }
+  .known-issues {
+    background: var(--mid);
+    border-left: 3px solid #c88;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .known-issues strong { color: #c88; display: block; margin-bottom: 0.4rem; font-size: 0.7rem; letter-spacing: 0.06em; }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <h1>CIS Reference · Bylaws</h1>
+  <div class="subtitle">Bylaws v2 — loaded sections from agreement_sections table</div>
+</header>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="schema.html">Schema</a>
+  <a href="policies.html">Policies</a>
+  <a href="roles.html">Roles</a>
+  <a href="bylaws.html" class="active">Bylaws</a>
+  <a href="migrations.html">Migrations</a>
+</nav>
+
+<main>
+  <p class="lede">The bylaws of RegenHub, LCA are loaded into the CIS with stable addresses. Each clause is queryable and citeable from RLS policies, audit events, and applications. This is a live view — content fetched from the database at page load.</p>
+
+  <div class="agreement-meta">
+    <div class="meta-item"><strong>TITLE</strong>Bylaws — RegenHub, LCA (DBA Techne)</div>
+    <div class="meta-item"><strong>VERSION</strong>v2</div>
+    <div class="meta-item"><strong>EFFECTIVE DATE</strong>2026-05-11</div>
+    <div class="meta-item"><strong>STATUS</strong><span class="badge draft">DRAFT</span></div>
+    <div class="meta-item"><strong>DRAFTED BY</strong>Jeff Pote / Pote Law Firm</div>
+    <div class="meta-item"><strong>SECTIONS LOADED</strong><span id="section-count">—</span></div>
+    <div class="meta-item"><strong>LEGAL BASIS</strong>Colorado ULCAA C.R.S. Title 7, Art. 58</div>
+    <div class="meta-item"><strong>CANONICAL URL</strong><a href="https://techne.institute/legal/bylaws-v2/" style="color:#7ab">techne.institute/legal</a></div>
+  </div>
+
+  <div class="known-issues">
+    <strong>KNOWN ISSUES (tracked in metadata)</strong>
+    1. Section 5.3.5 referenced in §1.12.3 but does not appear in document body — likely drafting artifact.<br>
+    2. Schedule A share prices and dues are placeholders — must be completed before bylaws take effect.
+  </div>
+
+  <section>
+    <h2>Browse by Article</h2>
+    <div class="article-nav" id="article-nav">
+      <button class="art-btn active" onclick="loadArticle('all', this)">All</button>
+      <button class="art-btn" onclick="loadArticle('preamble', this)">Preamble</button>
+      <button class="art-btn" onclick="loadArticle('art-1', this)">I · Membership</button>
+      <button class="art-btn" onclick="loadArticle('art-2', this)">II · Meetings</button>
+      <button class="art-btn" onclick="loadArticle('art-3', this)">III · Directors</button>
+      <button class="art-btn" onclick="loadArticle('art-4', this)">IV · Officers</button>
+      <button class="art-btn" onclick="loadArticle('art-5', this)">V · Capital</button>
+      <button class="art-btn" onclick="loadArticle('art-6', this)">VI · Tax</button>
+      <button class="art-btn" onclick="loadArticle('art-7', this)">VII · Contracts</button>
+      <button class="art-btn" onclick="loadArticle('art-8', this)">VIII · Fiscal Year</button>
+      <button class="art-btn" onclick="loadArticle('art-9', this)">IX · Unclaimed</button>
+      <button class="art-btn" onclick="loadArticle('art-10', this)">X · Notice</button>
+      <button class="art-btn" onclick="loadArticle('art-11', this)">XI · Disputes</button>
+      <button class="art-btn" onclick="loadArticle('art-12', this)">XII · Amendments</button>
+      <button class="art-btn" onclick="loadArticle('art-13', this)">XIII · Dissolution</button>
+      <button class="art-btn" onclick="loadArticle('art-14', this)">XIV · Winding Up</button>
+      <button class="art-btn" onclick="loadArticle('art-15', this)">XV · Benefit Report</button>
+      <button class="art-btn" onclick="loadArticle('art-16', this)">XVI · Distribution</button>
+      <button class="art-btn" onclick="loadArticle('art-17', this)">XVII · Transactions</button>
+      <button class="art-btn" onclick="loadArticle('art-18', this)">XVIII · Information</button>
+    </div>
+    <div id="bylaws-content">
+      <div class="loading-msg">Loading bylaws from database…</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>CIS Reference · Bylaws</span>
+  <span class="mono">bylaws-v2-seed migration · dgcoffcanzwsuwgpocbt</span>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://dgcoffcanzwsuwgpocbt.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29mZmNhbnp3c3V3Z3BvY2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjE5MzYsImV4cCI6MjA5Njc5NzkzNn0.UYmAI7RrvC_5-ZD6TQKLzfShL06QsiPMszhq-YzbwLY';
+
+let allSections = [];
+
+async function fetchSections() {
+  // Supabase REST limits to 1000 by default; bylaws has 187 sections
+  const r = await fetch(
+    `${SUPABASE_URL}/rest/v1/agreement_sections?select=id,address,ordinal,heading,body_text&order=ordinal.asc&limit=300`,
+    { headers: { 'apikey': ANON_KEY, 'Authorization': `Bearer ${ANON_KEY}` } }
+  );
+  return await r.json();
+}
+
+function articleOf(address) {
+  const parts = address.split(':');
+  if (parts.length < 3) return 'other';
+  const seg = parts[2];
+  if (seg === 'preamble') return 'preamble';
+  const m = seg.match(/^(art-\d+)/);
+  return m ? m[1] : 'other';
+}
+
+function renderSections(sections, container) {
+  if (!sections.length) {
+    container.innerHTML = '<div class="loading-msg">No sections found.</div>';
+    return;
+  }
+
+  // Group by article
+  const groups = {};
+  const order = [];
+  sections.forEach(s => {
+    const art = articleOf(s.address);
+    if (!groups[art]) { groups[art] = []; order.push(art); }
+    groups[art].push(s);
+  });
+
+  container.innerHTML = order.map(art => {
+    const sects = groups[art];
+    const artHeading = sects.find(s => s.address.split(':')[2] === art || s.address.split(':')[2] === 'preamble');
+    const artTitle = artHeading ? artHeading.heading : art;
+    return `
+      <div class="article-block" data-art="${art}">
+        <div class="article-heading" onclick="toggleArticle(this)">
+          <span>${artTitle}</span>
+          <span class="toggle-icon">▼ ${sects.length} sections</span>
+        </div>
+        <div class="article-sections">
+          ${sects.map(s => `
+            <div class="section-row">
+              <div class="section-address">${s.address}</div>
+              ${s.heading && s.heading !== artTitle ? `<div class="section-heading">${s.heading}</div>` : ''}
+              ${s.body_text ? `
+                <div class="section-body collapsed" id="body-${s.id}">${escHtml(s.body_text.trim())}</div>
+                <button class="expand-btn" onclick="expandSection('${s.id}', this)">expand ↓</button>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function expandSection(id, btn) {
+  const el = document.getElementById('body-' + id);
+  if (el.classList.contains('collapsed')) {
+    el.classList.remove('collapsed');
+    btn.textContent = 'collapse ↑';
+  } else {
+    el.classList.add('collapsed');
+    btn.textContent = 'expand ↓';
+  }
+}
+
+function toggleArticle(header) {
+  const sections = header.nextElementSibling;
+  const hidden = sections.style.display === 'none';
+  sections.style.display = hidden ? '' : 'none';
+  header.querySelector('.toggle-icon').textContent = (hidden ? '▼' : '▶') + header.querySelector('.toggle-icon').textContent.slice(1);
+}
+
+function loadArticle(art, btn) {
+  document.querySelectorAll('.art-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const container = document.getElementById('bylaws-content');
+  if (art === 'all') {
+    renderSections(allSections, container);
+  } else {
+    renderSections(allSections.filter(s => articleOf(s.address) === art), container);
+  }
+}
+
+async function init() {
+  try {
+    allSections = await fetchSections();
+    if (Array.isArray(allSections)) {
+      document.getElementById('section-count').textContent = allSections.length;
+      renderSections(allSections, document.getElementById('bylaws-content'));
+    } else {
+      document.getElementById('bylaws-content').innerHTML = `<div class="loading-msg">Could not load bylaws. RLS may require authentication.</div>`;
+    }
+  } catch(e) {
+    document.getElementById('bylaws-content').innerHTML = `<div class="loading-msg">Error loading bylaws: ${e.message}</div>`;
+  }
+}
+
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+init();
+</script>
+</body>
+</html>

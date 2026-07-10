@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migrations — CIS Reference</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --gold-dashed: rgba(196,149,106,0.4);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    letter-spacing: 0.06em;
+    display: inline-block;
+  }
+  .badge.live { background: rgba(68,170,102,0.15); color: #4a9; border: 1px solid #4a9; }
+  .badge.planned { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold); }
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--gold-dim);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.65rem;
+    top: 0.4rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+  }
+  .timeline-item.planned::before {
+    background: var(--paper);
+    border-color: var(--gold);
+  }
+  .timeline-item.planned { opacity: 0.65; }
+  .migration-file {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #7ab;
+    margin-bottom: 0.3rem;
+  }
+  .migration-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .migration-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .migration-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.55;
+    max-width: 620px;
+  }
+  .migration-what {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .migration-what .key { color: var(--ink); }
+  .wave-section {
+    margin: 2rem 0;
+  }
+  .wave-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.3rem;
+  }
+  .wave-scope {
+    font-size: 0.85rem;
+    color: var(--muted);
+    max-width: 620px;
+    padding-left: 1rem;
+    border-left: 2px solid var(--gold-dim);
+  }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <h1>CIS Reference · Migrations</h1>
+  <div class="subtitle">What was applied — and what comes next</div>
+</header>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="schema.html">Schema</a>
+  <a href="policies.html">Policies</a>
+  <a href="roles.html">Roles</a>
+  <a href="bylaws.html">Bylaws</a>
+  <a href="migrations.html" class="active">Migrations</a>
+</nav>
+
+<main>
+  <p class="lede">The CIS is built incrementally. Each migration adds a defined layer. Three migrations constitute Wave 0 — the substrate. The wave model gives the cooperative a way to reason about what's live, what's planned, and what each increment unlocks.</p>
+
+  <section>
+    <h2>Applied Migrations — W0 Complete</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="migration-file">20260522000000_L1-L2-substrate.sql</div>
+        <div class="migration-title">L1 + L2 Substrate <span class="badge live">APPLIED</span></div>
+        <div class="migration-date">Applied: 2026-07-08 (seeded) · Authored: 2026-05-22</div>
+        <div class="migration-desc">
+          The foundation. Five L1 REA tables, the L2 audit schema, pgvector extension, and export views for walkaway rehearsal. Three bootstrap agents seeded: the cooperative itself, Nou, and Dianoia.
+        </div>
+        <div class="migration-what">
+          <span class="key">Extensions:</span> uuid-ossp · citext · vector (pgvector 1536-dim)<br>
+          <span class="key">Schemas:</span> public (L1) · audit (L2) · export (walkaway)<br>
+          <span class="key">Tables:</span> agents · agreements · agreement_sections · resources · role_assignments · audit.events<br>
+          <span class="key">Functions:</span> audit.log_change() — SECURITY DEFINER trigger<br>
+          <span class="key">Seeds:</span> RegenHub LCA (legal) · Nou (agent_ai) · Dianoia (agent_ai) · 1 role_assignment
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="migration-file">20260522000001_phase2-rls-policies.sql</div>
+        <div class="migration-title">Phase 2 — RLS Policies <span class="badge live">APPLIED</span></div>
+        <div class="migration-date">Applied: 2026-07-08 · Authored: 2026-05-22</div>
+        <div class="migration-desc">
+          Row-level security on all L1 tables. Cite-as-you-enforce pattern: policy names embed the bylaw citation they enforce. Three SECURITY DEFINER helper functions. Public access to bylaws; member-gated directory; director-gated governance data.
+        </div>
+        <div class="migration-what">
+          <span class="key">RLS enabled:</span> 6 tables (5 L1 + audit.events)<br>
+          <span class="key">Helpers:</span> has_role() · has_any_role() · agent_id()<br>
+          <span class="key">Policy count:</span> ~30 policies across 6 tables<br>
+          <span class="key">Pattern:</span> cite-as-you-enforce — bylaw address in policy name<br>
+          <span class="key">Bootstrap event:</span> Phase 2 completion recorded to audit.events
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="migration-file">20260522000002_bylaws-v2-seed.sql</div>
+        <div class="migration-title">Bylaws v2 Seed <span class="badge live">APPLIED</span></div>
+        <div class="migration-date">Applied: 2026-07-08 · Authored: 2026-05-22</div>
+        <div class="migration-desc">
+          The full text of Bylaws v2 loaded into agreement_sections with stable addresses. 187 sections, 18 articles plus preamble. Idempotent upserts — safe to re-run. Two known issues tracked in agreement metadata.
+        </div>
+        <div class="migration-what">
+          <span class="key">Agreement:</span> bylaws:v2 · effective 2026-05-11 · status: draft<br>
+          <span class="key">Sections:</span> 187 rows (preamble + art-1 through art-18 + schedule-a)<br>
+          <span class="key">Largest articles:</span> art-3 (45) · art-1 (42) · art-5 (25) · art-2 (23)<br>
+          <span class="key">Address format:</span> bylaws:v2:art-1.sec-3.sub-2<br>
+          <span class="key">Known issues:</span> 2 (§5.3.5 missing · Schedule A placeholder values)
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Planned Waves</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W1 — Authentication <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Supabase Auth provisioned on the CIS project. Map auth.uid() to agents.id via the agent_id() helper. Enable member login. Provision role_assignments for real members. RLS policies begin enforcing against live sessions.</div>
+        <div class="migration-what">
+          <span class="key">Unlocks:</span> Members can see their own directory entry, agreements, and audit trail<br>
+          <span class="key">Requires:</span> Auth provider config · member email list · invitation flow
+        </div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W2 — Patronage Engine <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Capital accounts, contribution primitives (HOURS · REVENUE · CASH · OUTPUT · PRESENCE · PROPERTY), and year-end allocation. The patronage formula maps to K-1 distributions. A validated engine with 184 tests exists; needs migration to this schema.</div>
+        <div class="migration-what">
+          <span class="key">New tables:</span> contributions · capital_accounts · allocations<br>
+          <span class="key">Six primitives:</span> closed at Bylaws level (art-5)<br>
+          <span class="key">Formula:</span> 40% labor · 30% revenue · 20% cash · 10% community
+        </div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W3 — Treasury <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Financial statement integration. Mercury bank account, Stripe payouts, and Xero entries linked to CIS resources. Monthly statement generation. The June 2026 statement currently exists as a standalone HTML file; W3 bakes this into the CIS.</div>
+        <div class="migration-what">
+          <span class="key">Integrations:</span> Mercury API · Stripe API · Xero OAuth<br>
+          <span class="key">New tables:</span> ledger_entries · bank_accounts · statement_periods
+        </div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W4 — People <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Full member onboarding flow. Invitation, application, board review, admission, share purchase — all tracked in the CIS. Membership Agreement v2.3 loaded as an agreement record. Class One admission tied to role_assignments.</div>
+        <div class="migration-what">
+          <span class="key">New tables:</span> applications · invitations · share_purchases<br>
+          <span class="key">Requires:</span> W1 (auth) complete
+        </div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W5 — Hub Operations <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">1515 Walnut co-working space management. Desk assignments, office leases, Class Two/Three membership billing, booking calendar. Revenue tracked into W3 treasury layer.</div>
+        <div class="migration-what">
+          <span class="key">New tables:</span> spaces · bookings · hub_memberships · space_revenue<br>
+          <span class="key">Target MRR:</span> $10-11K/mo by June 2027
+        </div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="migration-title">W6 — Coordination <span class="badge planned">PLANNED</span></div>
+        <div class="migration-desc">Decision threads, deliberation notes, and the cooperative's governance coordination surface. Replaces the co-op.us Workshop system. The intranet rebuild will surface this as the member-facing coordination layer.</div>
+        <div class="migration-what">
+          <span class="key">New tables:</span> decision_threads · deliberation_notes · agenda_items<br>
+          <span class="key">Replaces:</span> hvbdpgkdcdskhpbdeeim (co-op.us Workshop — being retired)
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Migration Repo</h2>
+    <p>Migrations live in the CIS repository at <code style="font-family:monospace">supabase/migrations/</code>. Each migration is a SQL file with a timestamp prefix and descriptive name. Applied via <code style="font-family:monospace">supabase db push</code> or the Supabase dashboard migration runner.</p>
+    <p>The repo is private. When the intranet is rebuilt, migration history will be surfaced here automatically via the live-query layer on this page.</p>
+  </section>
+</main>
+
+<footer>
+  <span>CIS Reference · Migrations</span>
+  <span class="mono">3 applied · W0 complete · 2026-07-08</span>
+</footer>
+
+<script>
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+</script>
+</body>
+</html>

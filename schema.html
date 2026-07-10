@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schema — CIS Reference</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --gold-dashed: rgba(196,149,106,0.4);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .mono { font-family: 'IBM Plex Mono', 'Courier New', monospace; }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  .mode-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin: 1.5rem 0 0.5rem;
+    font-weight: 600;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    letter-spacing: 0.06em;
+    display: inline-block;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .badge.live { background: rgba(68,170,102,0.15); color: #4a9; border: 1px solid #4a9; }
+  .badge.planned { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold); }
+  .badge.l1 { background: rgba(100,130,200,0.15); color: #7ab; border: 1px solid #7ab; }
+  .badge.l2 { background: rgba(180,100,100,0.15); color: #c88; border: 1px solid #c88; }
+  .toggle-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .toggle-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+  }
+  .toggle-btn.active {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .view-plain { display: block; }
+  .view-technical { display: none; }
+  body.technical .view-plain { display: none; }
+  body.technical .view-technical { display: block; }
+  .table-card {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    margin-bottom: 1.5rem;
+  }
+  .table-card.planned {
+    border-style: dashed;
+    border-color: var(--gold-dashed);
+    opacity: 0.65;
+  }
+  .table-header {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--gold-dim);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .table-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--gold);
+  }
+  .table-rea {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .row-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: #4a9;
+    margin-left: auto;
+  }
+  .table-plain {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .cols-list {
+    padding: 0 1.25rem 0.75rem;
+  }
+  .col-row {
+    display: grid;
+    grid-template-columns: 180px 140px 1fr;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    align-items: baseline;
+  }
+  .col-row:last-child { border-bottom: none; }
+  .col-name { color: var(--ink); }
+  .col-type { color: #7ab; }
+  .col-notes { color: var(--muted); }
+  .section-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    margin: 1.5rem 0 0.5rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <h1>CIS Reference · Schema</h1>
+  <div class="subtitle">Tables, columns, and what they hold</div>
+</header>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="schema.html" class="active">Schema</a>
+  <a href="policies.html">Policies</a>
+  <a href="roles.html">Roles</a>
+  <a href="bylaws.html">Bylaws</a>
+  <a href="migrations.html">Migrations</a>
+</nav>
+
+<main>
+  <div class="toggle-row">
+    <button class="toggle-btn active" onclick="setView('plain', this)">Plain Language</button>
+    <button class="toggle-btn" onclick="setView('technical', this)">Technical</button>
+  </div>
+
+  <div class="section-header">L1 · Primitives — REA Economic Ontology</div>
+
+  <!-- agents -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">agents</span>
+      <span class="badge l1">L1</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">REA · Economic Agent</span>
+      <span class="row-count" id="count-agents">— rows</span>
+    </div>
+    <div class="table-plain view-plain">
+      Everyone and everything that can act in the cooperative. Natural persons (members), legal entities (the LCA itself), and AI agents (Nou, Dianoia). Soft-deleted via <code style="font-family:monospace;font-size:0.85em">archived_at</code> — records are never hard-deleted.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK · gen_random_uuid()</span></div>
+      <div class="col-row"><span class="col-name">kind</span><span class="col-type">text</span><span class="col-notes">natural · legal · agent_ai · organization</span></div>
+      <div class="col-row"><span class="col-name">display_name</span><span class="col-type">text NOT NULL</span><span class="col-notes">Human-readable name</span></div>
+      <div class="col-row"><span class="col-name">legal_name</span><span class="col-type">text</span><span class="col-notes">Full legal name if different</span></div>
+      <div class="col-row"><span class="col-name">email</span><span class="col-type">citext</span><span class="col-notes">Case-insensitive, unique</span></div>
+      <div class="col-row"><span class="col-name">metadata</span><span class="col-type">jsonb</span><span class="col-notes">Extended attributes</span></div>
+      <div class="col-row"><span class="col-name">archived_at</span><span class="col-type">timestamptz</span><span class="col-notes">Soft-delete timestamp</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">DEFAULT now()</span></div>
+    </div>
+  </div>
+
+  <!-- agreements -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">agreements</span>
+      <span class="badge l1">L1</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">REA · Contract</span>
+      <span class="row-count" id="count-agreements">— rows</span>
+    </div>
+    <div class="table-plain view-plain">
+      Documents that create obligations: bylaws, membership agreements, grant letters, meeting minutes. Each agreement has a version and an effective date. When a new version supersedes an old one, <code style="font-family:monospace;font-size:0.85em">superseded_by</code> links them. Bylaws v2 is the only agreement currently loaded.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK</span></div>
+      <div class="col-row"><span class="col-name">kind</span><span class="col-type">text</span><span class="col-notes">bylaws · membership_agreement · grant_letter · minutes · other</span></div>
+      <div class="col-row"><span class="col-name">title</span><span class="col-type">text NOT NULL</span><span class="col-notes"></span></div>
+      <div class="col-row"><span class="col-name">version</span><span class="col-type">text</span><span class="col-notes">e.g. "v2"</span></div>
+      <div class="col-row"><span class="col-name">effective_at</span><span class="col-type">timestamptz</span><span class="col-notes">When it took effect</span></div>
+      <div class="col-row"><span class="col-name">superseded_by</span><span class="col-type">uuid</span><span class="col-notes">FK → agreements.id</span></div>
+      <div class="col-row"><span class="col-name">document_uri</span><span class="col-type">text</span><span class="col-notes">Canonical URL of the document</span></div>
+      <div class="col-row"><span class="col-name">metadata</span><span class="col-type">jsonb</span><span class="col-notes">status · parties · known_issues · etc.</span></div>
+      <div class="col-row"><span class="col-name">archived_at</span><span class="col-type">timestamptz</span><span class="col-notes">Soft-delete</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">DEFAULT now()</span></div>
+    </div>
+  </div>
+
+  <!-- agreement_sections -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">agreement_sections</span>
+      <span class="badge l1">L1</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">REA · Clause</span>
+      <span class="row-count" id="count-sections">— rows</span>
+    </div>
+    <div class="table-plain view-plain">
+      Individual clauses within agreements, with stable addresses that survive version changes. The address format <code style="font-family:monospace;font-size:0.85em">bylaws:v2:art-1.sec-3</code> lets RLS policies cite specific provisions by address. 187 sections of Bylaws v2 are loaded, from the Preamble through Article XVIII and Schedule A.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK</span></div>
+      <div class="col-row"><span class="col-name">agreement_id</span><span class="col-type">uuid NOT NULL</span><span class="col-notes">FK → agreements.id</span></div>
+      <div class="col-row"><span class="col-name">address</span><span class="col-type">text NOT NULL</span><span class="col-notes">Stable identifier e.g. bylaws:v2:art-1.sec-3</span></div>
+      <div class="col-row"><span class="col-name">ordinal</span><span class="col-type">int</span><span class="col-notes">Sort order within agreement</span></div>
+      <div class="col-row"><span class="col-name">heading</span><span class="col-type">text</span><span class="col-notes">Section title</span></div>
+      <div class="col-row"><span class="col-name">body_markdown</span><span class="col-type">text</span><span class="col-notes">Full text in Markdown</span></div>
+      <div class="col-row"><span class="col-name">body_text</span><span class="col-type">text</span><span class="col-notes">Plain text version for search</span></div>
+      <div class="col-row"><span class="col-name">embedding</span><span class="col-type">vector(1536)</span><span class="col-notes">pgvector — semantic search (not yet populated)</span></div>
+      <div class="col-row"><span class="col-name">superseded_by</span><span class="col-type">uuid</span><span class="col-notes">FK → agreement_sections.id</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">DEFAULT now()</span></div>
+    </div>
+  </div>
+
+  <!-- resources -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">resources</span>
+      <span class="badge l1">L1</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">REA · Economic Resource</span>
+      <span class="row-count" id="count-resources">— rows</span>
+    </div>
+    <div class="table-plain view-plain">
+      Things of economic value the cooperative holds or tracks: capital balances, shares, desk seats, cloud credits. No resources are loaded yet — this table will be populated when the patronage engine (W2) and hub operations (W3) modules are built.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK</span></div>
+      <div class="col-row"><span class="col-name">kind</span><span class="col-type">text</span><span class="col-notes">capital_balance · share · seat · credit · other</span></div>
+      <div class="col-row"><span class="col-name">label</span><span class="col-type">text</span><span class="col-notes">Human label</span></div>
+      <div class="col-row"><span class="col-name">quantity</span><span class="col-type">numeric</span><span class="col-notes">Amount</span></div>
+      <div class="col-row"><span class="col-name">unit</span><span class="col-type">text</span><span class="col-notes">usd · hours · credits · shares</span></div>
+      <div class="col-row"><span class="col-name">holder_id</span><span class="col-type">uuid</span><span class="col-notes">FK → agents.id</span></div>
+      <div class="col-row"><span class="col-name">metadata</span><span class="col-type">jsonb</span><span class="col-notes"></span></div>
+      <div class="col-row"><span class="col-name">archived_at</span><span class="col-type">timestamptz</span><span class="col-notes">Soft-delete</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">DEFAULT now()</span></div>
+    </div>
+  </div>
+
+  <!-- role_assignments -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">role_assignments</span>
+      <span class="badge l1">L1</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">REA · Role</span>
+      <span class="row-count" id="count-roles">— rows</span>
+    </div>
+    <div class="table-plain view-plain">
+      Time-bounded grants of cooperative roles to agents. A role assignment has a start date and optionally an end date. The RLS helper function <code style="font-family:monospace;font-size:0.85em">has_role()</code> queries this table to determine what any authenticated agent may see and do.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK</span></div>
+      <div class="col-row"><span class="col-name">agent_id</span><span class="col-type">uuid NOT NULL</span><span class="col-notes">FK → agents.id</span></div>
+      <div class="col-row"><span class="col-name">role</span><span class="col-type">text NOT NULL</span><span class="col-notes">See roles.html for full list</span></div>
+      <div class="col-row"><span class="col-name">granted_by</span><span class="col-type">uuid</span><span class="col-notes">FK → agents.id</span></div>
+      <div class="col-row"><span class="col-name">granted_at</span><span class="col-type">timestamptz</span><span class="col-notes">When the role was granted</span></div>
+      <div class="col-row"><span class="col-name">expires_at</span><span class="col-type">timestamptz</span><span class="col-notes">NULL = indefinite</span></div>
+      <div class="col-row"><span class="col-name">metadata</span><span class="col-type">jsonb</span><span class="col-notes">Context / reason</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">DEFAULT now()</span></div>
+    </div>
+  </div>
+
+  <div class="section-header">L2 · Audit</div>
+
+  <!-- audit.events -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-name">audit.events</span>
+      <span class="badge l2">L2</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">Unified event stream</span>
+    </div>
+    <div class="table-plain view-plain">
+      Append-only log of everything that happens in the CIS. Triggers on all L1 tables write to this stream automatically. Combines REA economic events (transfers, allocations) with operational audit trail (who changed what, when). Members can read their own events. Directors and admins can read all events.
+    </div>
+    <div class="cols-list view-technical">
+      <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-notes">PK</span></div>
+      <div class="col-row"><span class="col-name">event_type</span><span class="col-type">text NOT NULL</span><span class="col-notes">e.g. INSERT · UPDATE · DELETE · economic_transfer</span></div>
+      <div class="col-row"><span class="col-name">table_name</span><span class="col-type">text</span><span class="col-notes">Source table</span></div>
+      <div class="col-row"><span class="col-name">record_id</span><span class="col-type">uuid</span><span class="col-notes">Affected row</span></div>
+      <div class="col-row"><span class="col-name">actor_id</span><span class="col-type">uuid</span><span class="col-notes">FK → agents.id (who did it)</span></div>
+      <div class="col-row"><span class="col-name">old_data</span><span class="col-type">jsonb</span><span class="col-notes">Row state before change</span></div>
+      <div class="col-row"><span class="col-name">new_data</span><span class="col-type">jsonb</span><span class="col-notes">Row state after change</span></div>
+      <div class="col-row"><span class="col-name">metadata</span><span class="col-type">jsonb</span><span class="col-notes">Event context</span></div>
+      <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span><span class="col-notes">Event timestamp</span></div>
+    </div>
+  </div>
+
+  <div class="section-header">Export Schema</div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">export.* views</span>
+      <span class="badge live">LIVE</span>
+      <span class="table-rea">Walkaway rehearsal exports</span>
+    </div>
+    <div class="table-plain view-plain">
+      Read-only views in the <code style="font-family:monospace;font-size:0.85em">export</code> schema for generating CSV/JSON snapshots. Designed for the cooperative's walkaway rehearsal — a periodic test of whether members could reconstruct all essential records from the CIS. Views mirror L1 tables with human-readable field names.
+    </div>
+  </div>
+
+  <div class="section-header">Planned — Wave 2+</div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">contributions</span>
+      <span class="badge planned">W2</span>
+      <span class="table-rea">REA · Economic Event</span>
+    </div>
+    <div class="table-plain view-plain">
+      The patronage engine — HOURS, REVENUE, CASH, OUTPUT, PRESENCE, PROPERTY primitives credited to member capital accounts. Six primitives, closed at the Bylaws level; adding a seventh requires amendment.
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">capital_accounts</span>
+      <span class="badge planned">W2</span>
+      <span class="table-rea">REA · Economic Resource</span>
+    </div>
+    <div class="table-plain view-plain">
+      Per-member capital balances, tracking allocated patronage, tax distributions, and redemption schedule. Governed by Subchapter K / IRC 704(b).
+    </div>
+  </div>
+
+  <div class="table-card planned">
+    <div class="table-header">
+      <span class="table-name">hub_bookings · spaces · memberships</span>
+      <span class="badge planned">W3</span>
+      <span class="table-rea">Hub Operations</span>
+    </div>
+    <div class="table-plain view-plain">
+      Co-working space management for 1515 Walnut — desk assignments, office leases, booking calendar, and Class Two/Three membership tracking.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>CIS Reference · Schema</span>
+  <span class="mono">dgcoffcanzwsuwgpocbt · W0</span>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://dgcoffcanzwsuwgpocbt.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29mZmNhbnp3c3V3Z3BvY2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjE5MzYsImV4cCI6MjA5Njc5NzkzNn0.UYmAI7RrvC_5-ZD6TQKLzfShL06QsiPMszhq-YzbwLY';
+
+async function fetchCount(table) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
+    headers: { 'apikey': ANON_KEY, 'Authorization': `Bearer ${ANON_KEY}`, 'Prefer': 'count=exact', 'Range': '0-0' }
+  });
+  const range = r.headers.get('content-range');
+  if (range) { const m = range.match(/\/(\d+)/); if (m) return parseInt(m[1]); }
+  return null;
+}
+
+async function loadCounts() {
+  try {
+    const tables = [
+      ['agents', 'count-agents'],
+      ['agreements', 'count-agreements'],
+      ['agreement_sections', 'count-sections'],
+      ['resources', 'count-resources'],
+      ['role_assignments', 'count-roles'],
+    ];
+    await Promise.all(tables.map(async ([t, id]) => {
+      const n = await fetchCount(t);
+      const el = document.getElementById(id);
+      if (el && n !== null) el.textContent = `${n} rows`;
+    }));
+  } catch(e) {}
+}
+
+function setView(mode, btn) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (mode === 'technical') document.body.classList.add('technical');
+  else document.body.classList.remove('technical');
+}
+
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+loadCounts();
+</script>
+</body>
+</html>

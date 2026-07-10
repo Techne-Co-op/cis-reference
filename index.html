@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIS Reference — RegenHub, LCA</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --gold-dashed: rgba(196,149,106,0.4);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+    --live-green: #4a9;
+    --planned-gold: #c4956a;
+    --draft-muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  .mono { font-family: 'IBM Plex Mono', 'Courier New', monospace; }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .wave-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .wave {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--gold-dim);
+    letter-spacing: 0.08em;
+  }
+  .wave.active {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .wave.planned {
+    color: var(--muted);
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    transition: color 0.15s;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.05em;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  .mode-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 2rem;
+    color: var(--ink);
+  }
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+  }
+  .stat-chip {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 0.75rem 1.25rem;
+    min-width: 120px;
+  }
+  .stat-chip .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.6rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1.2;
+  }
+  .stat-chip .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    display: block;
+  }
+  .stat-chip.live-stat .num::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #4a9;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  section { margin: 2.5rem 0; }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .arch-diagram {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+    color: var(--muted);
+  }
+  .arch-diagram .layer-label { color: var(--gold); }
+  .arch-diagram .arrow { color: var(--gold-dashed); }
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .status-card {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 1rem 1.25rem;
+  }
+  .status-card.planned {
+    border-style: dashed;
+    border-color: var(--gold-dashed);
+    opacity: 0.7;
+  }
+  .status-card .card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .status-card .card-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    letter-spacing: 0.06em;
+    display: inline-block;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .badge.live { background: rgba(68,170,102,0.15); color: #4a9; border: 1px solid #4a9; }
+  .badge.planned { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold); }
+  .badge.draft { background: transparent; color: var(--muted); border: 1px solid var(--muted); }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  .gap-notice {
+    background: var(--mid);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .construction-banner {
+    background: var(--mid);
+    border: 2px dashed var(--gold-dashed);
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .construction-banner strong { color: var(--gold); }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <div class="wave-bar">
+    <span class="wave active">W0 · SUBSTRATE</span>
+    <span class="wave planned">W1 · AUTH</span>
+    <span class="wave planned">W2 · PATRONAGE</span>
+    <span class="wave planned">W3 · TREASURY</span>
+    <span class="wave planned">W4 · PEOPLE</span>
+    <span class="wave planned">W5 · AGREEMENTS</span>
+    <span class="wave planned">W6 · COORDINATION</span>
+  </div>
+  <h1>CIS Reference</h1>
+  <div class="subtitle">Cooperative Information System · RegenHub, LCA · construction zone</div>
+</header>
+
+<nav>
+  <a href="index.html" class="active">Overview</a>
+  <a href="schema.html">Schema</a>
+  <a href="policies.html">Policies</a>
+  <a href="roles.html">Roles</a>
+  <a href="bylaws.html">Bylaws</a>
+  <a href="migrations.html">Migrations</a>
+</nav>
+
+<main>
+  <div class="construction-banner">
+    <strong>Digital construction zone.</strong> This reference documents what is live in the CIS database — not what is planned or hoped for. Planned sections are marked with dashed borders and a <span class="badge planned">PLANNED</span> badge. Live sections are marked <span class="badge live">LIVE</span>.
+  </div>
+
+  <p class="lede">The Cooperative Information System is the state machine of RegenHub, LCA. It holds the legal structure of the cooperative — the agents who compose it, the agreements that govern it, the resources it holds, and the events it records. This reference makes that structure legible to members and builders alike.</p>
+
+  <section>
+    <h2>Live State</h2>
+    <div class="stat-row">
+      <div class="stat-chip live-stat" id="chip-agents">
+        <span class="num">—</span>
+        <span class="label">agents</span>
+      </div>
+      <div class="stat-chip live-stat" id="chip-agreements">
+        <span class="num">—</span>
+        <span class="label">agreements</span>
+      </div>
+      <div class="stat-chip live-stat" id="chip-sections">
+        <span class="num">—</span>
+        <span class="label">bylaw sections</span>
+      </div>
+      <div class="stat-chip live-stat" id="chip-roles">
+        <span class="num">—</span>
+        <span class="label">role assignments</span>
+      </div>
+      <div class="stat-chip" id="chip-resources">
+        <span class="num">0</span>
+        <span class="label">resources</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num">W0</span>
+        <span class="label">current wave</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Architecture</h2>
+    <p>The CIS is organized in layers. L1 holds the REA primitives — the economic ontology that makes cooperative accounting possible. L2 holds the audit trail. Planned waves will add patronage, treasury, coordination, and membership tooling on top of this substrate.</p>
+    <div class="arch-diagram">
+      <div><span class="layer-label">L1 · Primitives</span>  ·  agents · agreements · agreement_sections · resources · role_assignments <span class="badge live">LIVE</span></div>
+      <div><span class="arrow">↓</span></div>
+      <div><span class="layer-label">L2 · Audit</span>      ·  audit.events (unified append-only event stream) <span class="badge live">LIVE</span></div>
+      <div><span class="arrow">↓</span></div>
+      <div><span class="layer-label">W1 · Auth</span>        ·  Supabase Auth · member login · role provisioning <span class="badge planned">PLANNED</span></div>
+      <div><span class="arrow">↓</span></div>
+      <div><span class="layer-label">W2 · Patronage</span>   ·  contribution primitives · capital accounts · K-1 allocation <span class="badge planned">PLANNED</span></div>
+      <div><span class="arrow">↓</span></div>
+      <div><span class="layer-label">W3+ · Modules</span>    ·  treasury · people · hub operations · coordination games <span class="badge planned">PLANNED</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What is live</h2>
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="card-title">L1 Substrate <span class="badge live">LIVE</span></div>
+        <div class="card-desc">Five core tables seeded and queryable: agents, agreements, agreement_sections, resources, role_assignments. REA ontology in place.</div>
+      </div>
+      <div class="status-card">
+        <div class="card-title">Bylaws v2 <span class="badge draft">DRAFT</span></div>
+        <div class="card-desc">187 sections across 18 articles plus preamble, loaded with stable addressing. Draft status — not yet ratified. Two known issues tracked in metadata.</div>
+      </div>
+      <div class="status-card">
+        <div class="card-title">RLS Policies <span class="badge live">LIVE</span></div>
+        <div class="card-desc">Row-level security on all tables. Bylaws are publicly readable. Members, directors, and admins have role-gated access. Cite-as-you-enforce pattern with bylaw citations in policy names.</div>
+      </div>
+      <div class="status-card">
+        <div class="card-title">Audit Trail <span class="badge live">LIVE</span></div>
+        <div class="card-desc">Triggers on all L1 tables write to audit.events automatically. Append-only. Members can read their own events; directors see all.</div>
+      </div>
+      <div class="status-card">
+        <div class="card-title">Bootstrap Agents <span class="badge live">LIVE</span></div>
+        <div class="card-desc">Three agents seeded: RegenHub LCA (the cooperative itself), Nou (collective intelligence AI), Dianoia (execution intelligence AI).</div>
+      </div>
+      <div class="status-card planned">
+        <div class="card-title">Member Auth <span class="badge planned">PLANNED</span></div>
+        <div class="card-desc">Supabase Auth not yet provisioned on this project. W1 will wire login, map auth.uid() to agents.id, and enable member-gated views.</div>
+      </div>
+      <div class="status-card planned">
+        <div class="card-title">Patronage Engine <span class="badge planned">PLANNED</span></div>
+        <div class="card-desc">Capital accounts, contribution primitives, and year-end allocation logic. W2. Validated engine exists (184 tests); needs schema migration.</div>
+      </div>
+      <div class="status-card planned">
+        <div class="card-title">Hub Operations <span class="badge planned">PLANNED</span></div>
+        <div class="card-desc">Workspace bookings, co-working membership, space revenue tracking. W3+. Intranet rebuild will surface this data.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the CIS is not</h2>
+    <p>The CIS is not a workflow tool, a chat surface, or a task manager. It holds the economic facts of the cooperative — what exists, what was agreed, what happened. Applications are built on top of it, but the CIS itself is the ground truth.</p>
+    <p>The Workshop coordination system (co-op.us) will be retired. The intranet will be rebuilt directly from this CIS project rather than migrated from the legacy system.</p>
+  </section>
+
+  <section>
+    <h2>Source of truth</h2>
+    <p>Supabase project: <span class="mono">dgcoffcanzwsuwgpocbt</span> · Region: us-west-2 · Three migrations applied (W0 complete).</p>
+    <p>Legal documents: <a href="https://techne.institute/legal" style="color: var(--gold);">techne.institute/legal</a> · Bylaws v2 effective date: 2026-05-11 · Drafted by Jeff Pote / Pote Law Firm.</p>
+  </section>
+</main>
+
+<footer>
+  <span>CIS Reference · RegenHub, LCA · <span id="footer-date"></span></span>
+  <span class="mono">W0 · SUBSTRATE · construction zone</span>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://dgcoffcanzwsuwgpocbt.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29mZmNhbnp3c3V3Z3BvY2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjE5MzYsImV4cCI6MjA5Njc5NzkzNn0.UYmAI7RrvC_5-ZD6TQKLzfShL06QsiPMszhq-YzbwLY';
+
+async function fetchCount(table) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
+    headers: {
+      'apikey': ANON_KEY,
+      'Authorization': `Bearer ${ANON_KEY}`,
+      'Prefer': 'count=exact',
+      'Range': '0-0'
+    }
+  });
+  const range = r.headers.get('content-range');
+  if (range) {
+    const m = range.match(/\/(\d+)/);
+    if (m) return parseInt(m[1]);
+  }
+  return null;
+}
+
+async function loadStats() {
+  try {
+    const [agents, agreements, sections, roles] = await Promise.all([
+      fetchCount('agents'),
+      fetchCount('agreements'),
+      fetchCount('agreement_sections'),
+      fetchCount('role_assignments'),
+    ]);
+    if (agents !== null) document.querySelector('#chip-agents .num').textContent = agents;
+    if (agreements !== null) document.querySelector('#chip-agreements .num').textContent = agreements;
+    if (sections !== null) document.querySelector('#chip-sections .num').textContent = sections;
+    if (roles !== null) document.querySelector('#chip-roles .num').textContent = roles;
+  } catch(e) {
+    console.warn('Live stats unavailable:', e);
+  }
+}
+
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+
+document.getElementById('footer-date').textContent = new Date().toISOString().slice(0,10);
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+loadStats();
+</script>
+</body>
+</html>

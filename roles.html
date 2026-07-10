@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles — CIS Reference</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  .mode-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+  .section-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    margin: 2rem 0 0.75rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .role-card {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 1rem 1.25rem;
+  }
+  .role-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+  .role-plain {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .role-cite {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: #7ab;
+    margin-top: 0.4rem;
+    display: block;
+  }
+  .journey-steps {
+    display: flex;
+    gap: 0;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .journey-step {
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    padding: 0.75rem 1rem;
+    flex: 1;
+    min-width: 120px;
+    position: relative;
+  }
+  .journey-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-family: monospace;
+    z-index: 1;
+  }
+  .journey-step .step-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .journey-step .step-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .assignment-note {
+    background: var(--mid);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .assignment-note strong { color: var(--gold); }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <h1>CIS Reference · Roles</h1>
+  <div class="subtitle">Who can see and do what — and how roles are granted</div>
+</header>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="schema.html">Schema</a>
+  <a href="policies.html">Policies</a>
+  <a href="roles.html" class="active">Roles</a>
+  <a href="bylaws.html">Bylaws</a>
+  <a href="migrations.html">Migrations</a>
+</nav>
+
+<main>
+  <p class="lede">The CIS defines 15 roles in the role_assignments table. Roles are time-bounded grants — each has a start date, an optional expiry, and a grantor. The RLS helper <code style="font-family:monospace;font-size:0.9em">has_role()</code> checks active assignments at query time.</p>
+
+  <div class="assignment-note">
+    <strong>Assignment mechanism:</strong> Role grants are written to <code>role_assignments</code> by directors or admins. Authentication is via Supabase Auth (W1 — not yet provisioned). Until W1, the CIS holds role data but cannot enforce it against real login sessions. Bootstrap roles assigned to AI agents are active.
+  </div>
+
+  <section>
+    <h2>Member Journey</h2>
+    <div class="journey-steps">
+      <div class="journey-step">
+        <span class="step-role">applicant</span>
+        <span class="step-desc">Submitted interest, under board review. Can read bylaws and membership agreement.</span>
+      </div>
+      <div class="journey-step">
+        <span class="step-role">member</span>
+        <span class="step-desc">Class One admission. $100 share. Can read member directory and all agreements.</span>
+      </div>
+      <div class="journey-step">
+        <span class="step-role">patron_member</span>
+        <span class="step-desc">Active contributor with logged patronage. Can see resource table. K-1 eligible.</span>
+      </div>
+      <div class="journey-step">
+        <span class="step-role">director</span>
+        <span class="step-desc">Board elected. Full write access. Governs role grants and agreement creation.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cooperative Core Roles</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-name">admin</div>
+        <div class="role-plain">System administrator. Full database access. Typically an AI agent or technical steward. Not a governance role — does not vote.</div>
+        <span class="role-cite">System role — not in Bylaws</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">director</div>
+        <div class="role-plain">Board member. Reads and writes all CIS data, creates agreements, grants roles. Elected by Class One members at annual meeting.</div>
+        <span class="role-cite">bylaws:v2:art-3 — Directors</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">officer</div>
+        <div class="role-plain">President, Vice President, Treasurer, or Secretary. Elevated write access for their functional area. Appointed by the board.</div>
+        <span class="role-cite">bylaws:v2:art-4 — Officers</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">patron_member</div>
+        <div class="role-plain">Active member with logged contributions. Eligible for patronage allocation at year-end. Reads the full resource table.</div>
+        <span class="role-cite">bylaws:v2:art-5.sec-1 — Patronage</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">member</div>
+        <div class="role-plain">Class One member in good standing. Reads member directory and agreements. One vote. $100 share.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-1 — Membership classes</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">applicant</div>
+        <div class="role-plain">Prospective member under board review. Reads bylaws and membership agreement only. No other access.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-2 — Admission</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">suspended_member</div>
+        <div class="role-plain">Member under suspension by board action. Read access reduced to bylaws only. Status reviewed at next board meeting.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-10 — Suspension</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">former_member</div>
+        <div class="role-plain">Withdrew or was terminated. Capital account on board-determined payout schedule (up to 5 years). Bylaws read access retained.</div>
+        <span class="role-cite">bylaws:v2:art-1.sec-11 — Termination</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">investor_member</div>
+        <div class="role-plain">Class Four investor. No voting unless co-held with Class One. No patronage. No workspace access. Terms pending Pote Law Firm.</div>
+        <span class="role-cite">bylaws:v2 — Class Four (pending)</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">community_supporter</div>
+        <div class="role-plain">Capital contribution without equity or membership rights. Governed by ULCAA § 7-58-104. No votes, no patronage.</div>
+        <span class="role-cite">ULCAA § 7-58-104</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Hub Operations Roles</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-name">hub_member</div>
+        <div class="role-plain">Class Two co-working member. $250/mo hot desk or $500+/mo dedicated. No voting. Hub MA drafting deferred.</div>
+        <span class="role-cite">bylaws:v2 — Class Two</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">community_participant</div>
+        <div class="role-plain">Class Three participant. $25–$100/mo tiered (Threshold · Footing · Standing). No voting. Hub MA drafting deferred.</div>
+        <span class="role-cite">bylaws:v2 — Class Three</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">hub_staff</div>
+        <div class="role-plain">Staff managing the 1515 Walnut space. Operational write access to hub bookings and space tables (W3+).</div>
+        <span class="role-cite">Operational role — not a membership class</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">agent_ai</div>
+        <div class="role-plain">AI agent operating within the cooperative. Currently: Nou (collective intelligence) and Dianoia (execution intelligence). Scoped access per individual grants.</div>
+        <span class="role-cite">System role — CIS bootstrap</span>
+      </div>
+      <div class="role-card">
+        <div class="role-name">auditor</div>
+        <div class="role-plain">Read-only access to all audit.events and financial records. For external review or cooperative transparency audits. No write access.</div>
+        <span class="role-cite">bylaws:v2:art-15 — Annual Benefit Report</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Live Role Assignments</h2>
+    <p>Current role_assignments loaded in the CIS. W1 (auth) will link these to real login sessions.</p>
+    <div id="assignments-list" style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--muted);background:var(--mid);border:1px solid var(--gold-dim);padding:1rem;line-height:2;">
+      Loading...
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>CIS Reference · Roles</span>
+  <span class="mono">15 roles defined · role_assignments table</span>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://dgcoffcanzwsuwgpocbt.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29mZmNhbnp3c3V3Z3BvY2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjE5MzYsImV4cCI6MjA5Njc5NzkzNn0.UYmAI7RrvC_5-ZD6TQKLzfShL06QsiPMszhq-YzbwLY';
+
+async function loadAssignments() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/role_assignments?select=*&limit=50`, {
+      headers: { 'apikey': ANON_KEY, 'Authorization': `Bearer ${ANON_KEY}` }
+    });
+    const data = await r.json();
+    const el = document.getElementById('assignments-list');
+    if (!Array.isArray(data) || data.length === 0) {
+      el.textContent = 'No role assignments visible to anonymous viewers. (RLS restricts to directors and admins.)';
+      return;
+    }
+    el.innerHTML = data.map(ra => `
+      <div style="margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.05)">
+        <span style="color:var(--gold)">${ra.role}</span>
+        <span style="color:var(--muted)"> → agent ${ra.agent_id ? ra.agent_id.slice(0,8) + '…' : '?'}</span>
+        ${ra.granted_at ? `<span style="color:rgba(255,255,255,0.25)"> · granted ${ra.granted_at.slice(0,10)}</span>` : ''}
+        ${ra.expires_at ? `<span style="color:rgba(255,255,255,0.25)"> · expires ${ra.expires_at.slice(0,10)}</span>` : ''}
+      </div>
+    `).join('');
+  } catch(e) {
+    document.getElementById('assignments-list').textContent = 'Could not load live data.';
+  }
+}
+
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+loadAssignments();
+</script>
+</body>
+</html>

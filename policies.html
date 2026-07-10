@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policies — CIS Reference</title>
+<style>
+  :root {
+    --gold: #c4956a;
+    --gold-dim: rgba(196,149,106,0.3);
+    --gold-dashed: rgba(196,149,106,0.4);
+    --ink: #e8e4dc;
+    --paper: #0e0e0c;
+    --mid: #1a1a18;
+    --muted: #6b6860;
+  }
+  [data-mode="light"] {
+    --ink: #1a1a18;
+    --paper: #f5f2ed;
+    --mid: #e8e4dc;
+    --muted: #8a8478;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Libre Baskerville', serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  header {
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 2rem 2rem 1.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--gold-dim);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    float: right;
+    margin-top: 0.2rem;
+  }
+  .mode-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+  .policy-table-group {
+    margin-bottom: 2.5rem;
+  }
+  .ptg-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gold);
+    padding: 0.6rem 1rem;
+    background: var(--mid);
+    border: 1px solid var(--gold-dim);
+    border-bottom: none;
+    letter-spacing: 0.05em;
+  }
+  .policy-row {
+    display: grid;
+    grid-template-columns: 100px 80px 1fr;
+    gap: 1rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--gold-dim);
+    border-top: none;
+    font-size: 0.83rem;
+    align-items: start;
+  }
+  .policy-row:nth-child(odd) { background: rgba(255,255,255,0.015); }
+  .policy-op {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .policy-who {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+  }
+  .policy-desc { color: var(--ink); line-height: 1.4; }
+  .policy-cite {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: #7ab;
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .matrix-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  .matrix {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+  }
+  .matrix th {
+    padding: 0.5rem 0.75rem;
+    background: var(--mid);
+    color: var(--muted);
+    border: 1px solid var(--gold-dim);
+    text-align: left;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .matrix td {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.75rem;
+  }
+  .matrix .table-col { text-align: left; color: var(--gold); }
+  .can-read { color: #4a9; }
+  .can-write { color: #c4956a; }
+  .admin-only { color: #c88; }
+  .no-access { color: rgba(255,255,255,0.1); }
+  .public { color: #7ab; }
+  .section-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    margin: 2rem 0 0.5rem;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .cite-pattern {
+    background: var(--mid);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .cite-pattern strong { color: var(--gold); }
+  footer {
+    border-top: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="mode-toggle" onclick="toggleMode()">◐ mode</button>
+  <h1>CIS Reference · Policies</h1>
+  <div class="subtitle">Row-level security — who can see and do what</div>
+</header>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="schema.html">Schema</a>
+  <a href="policies.html" class="active">Policies</a>
+  <a href="roles.html">Roles</a>
+  <a href="bylaws.html">Bylaws</a>
+  <a href="migrations.html">Migrations</a>
+</nav>
+
+<main>
+  <p class="lede">Row-level security (RLS) is enabled on all L1 tables. Every query is filtered by who is asking. The policies follow a cite-as-you-enforce pattern: each policy name contains the bylaw section it is enforcing.</p>
+
+  <div class="cite-pattern">
+    <strong>Cite-as-you-enforce:</strong> Policy names like <code>agents_select_member_directory__1_7</code> embed the bylaw reference (<code>§1.7</code> — Members' inspection rights). The policy name is itself documentation.
+  </div>
+
+  <section>
+    <h2>Role × Table Access Matrix</h2>
+    <p>What each role tier can do across the L1 tables. RLS enforces this at the database level — no application layer can override it.</p>
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th class="table-col">Table</th>
+            <th>Public (anon)</th>
+            <th>Applicant</th>
+            <th>Member</th>
+            <th>Patron Member</th>
+            <th>Director</th>
+            <th>Admin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="table-col">agents</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">natural only</span></td>
+            <td class="can-read">READ</td>
+            <td class="can-read can-write">READ+WRITE</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+          <tr>
+            <td class="table-col">agreements</td>
+            <td class="public">READ<br><span style="font-size:0.65rem;color:var(--muted)">bylaws only</span></td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">bylaws+MA</span></td>
+            <td class="can-read">READ</td>
+            <td class="can-read">READ</td>
+            <td class="can-read can-write">READ+WRITE</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+          <tr>
+            <td class="table-col">agreement_sections</td>
+            <td class="public">READ<br><span style="font-size:0.65rem;color:var(--muted)">bylaws only</span></td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">bylaws+MA</span></td>
+            <td class="can-read">READ</td>
+            <td class="can-read">READ</td>
+            <td class="can-read can-write">READ+WRITE</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+          <tr>
+            <td class="table-col">resources</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">own only</span></td>
+            <td class="can-read">READ</td>
+            <td class="can-read">READ</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+          <tr>
+            <td class="table-col">role_assignments</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="can-read can-write">READ+WRITE</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+          <tr>
+            <td class="table-col">audit.events</td>
+            <td class="no-access">—</td>
+            <td class="no-access">—</td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">own only</span></td>
+            <td class="can-read">READ<br><span style="font-size:0.65rem;color:var(--muted)">own only</span></td>
+            <td class="can-read">READ ALL</td>
+            <td class="admin-only">ALL</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Policies by Table</h2>
+
+    <div class="section-header">agents</div>
+    <div class="policy-table-group">
+      <div class="ptg-header">agents</div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">public</span>
+        <span class="policy-desc">Bylaws and hub agreements readable without authentication.<span class="policy-cite">bylaws:v2:preamble — open cooperative principles</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">member</span>
+        <span class="policy-desc">Members can read the directory of natural persons (not archived). Legal entities and AI agents not in member directory view.<span class="policy-cite">bylaws:v2:art-1.sec-7 — members' inspection rights</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Full agent directory including legal entities and AI agents.</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">INSERT</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Only directors and administrators can register new agents.<span class="policy-cite">bylaws:v2:art-1.sec-2 — admission of members</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">UPDATE</span>
+        <span class="policy-who">member (own)</span>
+        <span class="policy-desc">Members may update their own display_name and metadata only.</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">UPDATE</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Directors can update any agent record.</span>
+      </div>
+    </div>
+
+    <div class="policy-table-group">
+      <div class="ptg-header">agreements &amp; agreement_sections</div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">public</span>
+        <span class="policy-desc">Bylaws are publicly readable — kind = 'bylaws' and kind = 'hub_agreement' without authentication. This is the cooperative's commitment to transparency.<span class="policy-cite">bylaws:v2:art-16 — distribution of bylaws</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">applicant</span>
+        <span class="policy-desc">Applicants can also read membership agreements before signing.<span class="policy-cite">bylaws:v2:art-1.sec-1 — voluntary and open membership</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">member</span>
+        <span class="policy-desc">Members can read all non-archived agreements.<span class="policy-cite">bylaws:v2:art-1.sec-7 — members' inspection rights</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">suspended / former</span>
+        <span class="policy-desc">Suspended or former members retain read access to bylaws only.<span class="policy-cite">bylaws:v2:art-1.sec-10 — suspension; art-1.sec-11 — termination</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">INSERT</span>
+        <span class="policy-who">director / officer / admin</span>
+        <span class="policy-desc">Only governance roles can create new agreement records.<span class="policy-cite">bylaws:v2:art-3 — board authority</span></span>
+      </div>
+    </div>
+
+    <div class="policy-table-group">
+      <div class="ptg-header">resources</div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">member (own)</span>
+        <span class="policy-desc">Members can read resources where they are the holder.<span class="policy-cite">bylaws:v2:art-5 — capital accounts</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">patron_member</span>
+        <span class="policy-desc">Patron members (active contributors) can see the full resource table.<span class="policy-cite">bylaws:v2:art-5.sec-1 — patronage</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">INSERT / UPDATE</span>
+        <span class="policy-who">admin only</span>
+        <span class="policy-desc">Resources are managed by the patronage module. No direct writes by members or directors.</span>
+      </div>
+    </div>
+
+    <div class="policy-table-group">
+      <div class="ptg-header">role_assignments</div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Role assignments are visible only to governance roles.<span class="policy-cite">bylaws:v2:art-3.sec-1 — board powers</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">INSERT</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Only directors and admins can grant roles.<span class="policy-cite">bylaws:v2:art-3.sec-3 — election of directors</span></span>
+      </div>
+    </div>
+
+    <div class="policy-table-group">
+      <div class="ptg-header">audit.events</div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">member (own)</span>
+        <span class="policy-desc">Members can read events where actor_id matches their agent ID. Their own history is theirs to see.<span class="policy-cite">bylaws:v2:art-1.sec-7 — inspection rights</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">SELECT</span>
+        <span class="policy-who">director / admin</span>
+        <span class="policy-desc">Directors and admins have full audit log access.<span class="policy-cite">bylaws:v2:art-3.sec-1 — board powers of oversight</span></span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op">INSERT</span>
+        <span class="policy-who">authenticated</span>
+        <span class="policy-desc">Any authenticated user can write events. Triggers do this automatically; direct inserts allowed for semantic events (decisions, deliberations).</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Helper Functions</h2>
+    <p>Three SECURITY DEFINER functions underlie all policies. They run with elevated privilege to check role state without exposing role data directly to the calling session.</p>
+    <div class="policy-table-group">
+      <div class="ptg-header">RLS helpers</div>
+      <div class="policy-row">
+        <span class="policy-op" style="font-size:0.65rem">has_role()</span>
+        <span class="policy-who" style="font-size:0.65rem">boolean</span>
+        <span class="policy-desc" style="font-size:0.8rem"><code style="font-family:monospace">has_role(role text) → boolean</code> — checks whether the calling agent holds the named role in role_assignments (active, not expired). Used in all per-role policies.</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op" style="font-size:0.65rem">has_any_role()</span>
+        <span class="policy-who" style="font-size:0.65rem">boolean</span>
+        <span class="policy-desc" style="font-size:0.8rem"><code style="font-family:monospace">has_any_role(roles text[]) → boolean</code> — checks whether the calling agent holds any of the named roles. Used for multi-role policies (e.g. director OR officer).</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-op" style="font-size:0.65rem">agent_id()</span>
+        <span class="policy-who" style="font-size:0.65rem">uuid</span>
+        <span class="policy-desc" style="font-size:0.8rem"><code style="font-family:monospace">agent_id() → uuid</code> — returns the agents.id corresponding to auth.uid(). Maps Supabase auth to the cooperative's agent registry.</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>CIS Reference · Policies</span>
+  <span class="mono">W0 · phase2-rls-policies migration</span>
+</footer>
+
+<script>
+function toggleMode() {
+  const html = document.documentElement;
+  html.dataset.mode = html.dataset.mode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cis-mode', html.dataset.mode);
+}
+const saved = localStorage.getItem('cis-mode');
+if (saved) document.documentElement.dataset.mode = saved;
+</script>
+</body>
+</html>
